@@ -1,5 +1,6 @@
 package com.example.jwt.configuration;
 
+import io.jsonwebtoken.ExpiredJwtException;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -14,6 +15,23 @@ public class JwtRequestFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
                                     FilterChain filterChain) throws ServletException, IOException {
+
+        final  String header = request.getHeader("Authorization");
+
+        String jwtToken = null;
+        if(header!= null && header.startsWith("Bearer ")){
+            jwtToken = header.substring(7);
+
+            try {
+
+
+
+            } catch (IllegalArgumentException e){
+                System.out.println("Unable to get JWT token");
+            }catch (ExpiredJwtException e){
+                System.out.println("Jwt token is expired");
+            }
+        }
 
     }
 }
